@@ -4,29 +4,29 @@ import sys
 import threading
 import os
 
-def compute_height(n, parents):
-    children = {i: [] for i in range(n)}
+def compute_height(n, papa):
+    rebenok = {i: [] for i in range(n)}
 
     root = None
     for i in range(n):
-        parent = parents[i]
-        if parent == -1:
+        papa = papa[i]
+        if papa == -1:
             root = i
         else:
-            children[parent].append(i)
+            rebenok[papa].append(i)
 
     def height(node):
-        if not children[node]:
+        if not rebenok[node]:
             return 1
         else:
-            return 1 + max(height(child) for child in children[node])
+            return 1 + max(height(rebenok) for child in rebenok[node])
     return height(root)
 
 def main():
     text = input()
     if "I" in text:
         n = int(input())
-        parents = list(map(int, input().split()))
+        papa = list(map(int, input().split()))
     elif "F" in text:
 
         path = "./test/"
@@ -39,7 +39,7 @@ def main():
             try:
                 with open(file_path) as f:
                     n = int(f.readline().strip())
-                    parents = list(map(int, f.readline().strip().split()))
+                    papa = list(map(int, f.readline().strip().split()))
             except Exception as e:
                 print("Error:", str(e))
                 return
@@ -48,7 +48,7 @@ def main():
         print("Enter 'I' or 'F':")
         return
 
-    print(compute_height(n, parents))
+    print(compute_height(n, papa))
 
 
 # In Python, the default limit on recursion depth is rather low,
